@@ -34,8 +34,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -43,7 +42,11 @@ export default defineConfig(({ mode }) => ({
     },
   },
   esbuild: {
-    target: "esnext", // ✅ Enables top-level await and modern features
+    target: "esnext", // ✅ Top-level await support
+  },
+  build: {
+    target: "esnext", // ✅ Vercel build must also target esnext
   },
 }));
+
 
