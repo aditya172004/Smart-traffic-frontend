@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload, Navigation, Clock, Activity } from "lucide-react";
+import { Upload, Clock, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ImageUploadSection from "./ImageUploadSection";
 import SignalDurationDisplay from "./SignalDurationDisplay";
+import TrafficLightIcon from "./TrafficLightIcon";
 import { Client } from "@gradio/client";
-// import { log } from "console";
-
 
 const client = await Client.connect("subunfree/model");
 
@@ -16,43 +15,48 @@ const TrafficDashboard = () => {
     north: null,
     south: null,
     east: null,
-    west: null
+    west: null,
   });
-  
-  const [signalDurations, setSignalDurations] = useState<Record<string, number> | null>(null);
-  // const [signalDurations, setSignalDurations] = useState<SignalDurations | null>(null);
+
+  const [signalDurations, setSignalDurations] = useState<Record<
+    string,
+    number
+  > | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
 
   const handleImageUpload = (direction: string, file: File | null) => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setUploadedImages(prev => ({
+      setUploadedImages((prev) => ({
         ...prev,
-        [direction]: { file, url: imageUrl }
+        [direction]: { file, url: imageUrl },
       }));
-      
+
       toast({
-        title: `${direction.charAt(0).toUpperCase() + direction.slice(1)} image uploaded`,
-        description: "Image uploaded successfully"
+        title: `${
+          direction.charAt(0).toUpperCase() + direction.slice(1)
+        } image uploaded`,
+        description: "Image uploaded successfully",
       });
     } else {
-      // Handle removal case
-      setUploadedImages(prev => ({
+      setUploadedImages((prev) => ({
         ...prev,
-        [direction]: null
+        [direction]: null,
       }));
     }
   };
 
   const handleAnalyze = async () => {
-    const allImagesUploaded = Object.values(uploadedImages).every(img => img !== null);
+    const allImagesUploaded = Object.values(uploadedImages).every(
+      (img) => img !== null
+    );
 
     if (!allImagesUploaded) {
       toast({
         title: "Missing images",
         description: "Please upload images for all 4 directions",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -60,24 +64,11 @@ const TrafficDashboard = () => {
     setIsProcessing(true);
 
     try {
-      // const formData = new FormData();
-      // formData.append("north", uploadedImages.north.file);
-      // formData.append("south", uploadedImages.south.file);
-      // formData.append("east", uploadedImages.east.file);
-      // formData.append("west", uploadedImages.west.file);
-
-      // const response = await fetch("http://127.0.0.1:8000/predict-from-images", {
-      //   method: "POST",
-      //   body: formData
-      // });
-
-      // const data = await response.json();
-
-      const response = await client.predict("/predict", { 
-				img_N: uploadedImages.north.file, 
-				img_S: uploadedImages.south.file, 
-				img_E: uploadedImages.east.file, 
-				img_W: uploadedImages.west.file, 
+      const response = await client.predict("/predict", {
+        img_N: uploadedImages.north.file,
+        img_S: uploadedImages.south.file,
+        img_E: uploadedImages.east.file,
+        img_W: uploadedImages.west.file,
       });
 
       if (!response) {
@@ -85,86 +76,43 @@ const TrafficDashboard = () => {
       }
 
       const data = response.data;
-      // console.log(response);
-      // console.log(typeof(response));
       console.log(data[0]);
-      // console.log(typeof(data.prediction));
       const wrapped = { prediction: data[0] };
       setSignalDurations(wrapped);
 
-      
-      
-
-      // Expected format:
-      // data = { north: 45, south: 50, east: 40, west: 35 }
-
-      // setSignalDurations(data);
-
       toast({
         title: "Analysis complete!",
-        description: "Optimal signal durations received from server"
+        description: "Optimal signal durations received from server",
       });
     } catch (error) {
       toast({
         title: "Analysis failed",
         description: error.message || "An error occurred while processing",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsProcessing(false);
     }
   };
 
-  // const handleAnalyze = async () => {
-  //   const allImagesUploaded = Object.values(uploadedImages).every(img => img !== null);
-    
-  //   if (!allImagesUploaded) {
-  //     toast({
-  //       title: "Missing images",
-  //       description: "Please upload images for all 4 directions",
-  //       variant: "destructive"
-  //     });
-  //     return;
-  //   }
-
-  //   setIsProcessing(true);
-    
-  //   // Simulate API call to backend
-  //   setTimeout(() => {
-  //     setSignalDurations({
-  //       north: Math.floor(Math.random() * 60) + 30,
-  //       south: Math.floor(Math.random() * 60) + 30,
-  //       east: Math.floor(Math.random() * 60) + 30,
-  //       west: Math.floor(Math.random() * 60) + 30
-  //     });
-      
-  //     setIsProcessing(false);
-  //     toast({
-  //       title: "Analysis complete!",
-  //       description: "Optimal signal durations calculated"
-  //     });
-  //   }, 3000);
-  // };
-
   const handleReset = () => {
     setUploadedImages({
       north: null,
       south: null,
       east: null,
-      west: null
+      west: null,
     });
     setSignalDurations(null);
-    
-    // Clean up object URLs
-    Object.values(uploadedImages).forEach(img => {
+
+    Object.values(uploadedImages).forEach((img) => {
       if (img?.url) {
         URL.revokeObjectURL(img.url);
       }
     });
-    
+
     toast({
       title: "Dashboard reset",
-      description: "All data cleared"
+      description: "All data cleared",
     });
   };
 
@@ -172,23 +120,25 @@ const TrafficDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-dashboard-bg via-dashboard-bg to-background p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-gradient-header rounded-2xl shadow-glow border border-white/10 backdrop-blur-sm p-6 mb-6 animate-slide-up">
+        <div className="bg-gradient-header rounded-2xl shadow-glow border border-border/10 backdrop-blur-sm p-6 mb-6 animate-slide-up">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="bg-white/20 p-3 rounded-full backdrop-blur-sm border border-white/30 animate-float">
-                <Navigation className="h-8 w-8 text-white" />
+              <div className="bg-foreground/20 p-3 rounded-full backdrop-blur-sm border border-border/30 animate-float">
+                <TrafficLightIcon className="h-8 w-8 text-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-white bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
                   Smart Traffic Management
                 </h1>
-                <p className="text-white/80">AI-Powered Junction Optimization System</p>
+                <p className="text-muted-foreground">
+                  AI-Powered Junction Optimization System
+                </p>
               </div>
             </div>
-            <div className="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+            <div className="flex items-center space-x-2 bg-background/20 px-4 py-2 rounded-full backdrop-blur-sm border border-border/20">
               <div className="w-2 h-2 bg-traffic-green rounded-full animate-pulse"></div>
-              <Activity className="h-5 w-5 text-white" />
-              <span className="text-white font-medium">System Active</span>
+              <Activity className="h-5 w-5 text-foreground" />
+              <span className="text-foreground font-medium">System Active</span>
             </div>
           </div>
         </div>
@@ -201,7 +151,7 @@ const TrafficDashboard = () => {
               <CardHeader className="border-b border-border/50">
                 <CardTitle className="flex items-center space-x-2 text-card-foreground">
                   <div className="p-2 bg-gradient-primary rounded-lg">
-                    <Upload className="h-5 w-5 text-white" />
+                    <Upload className="h-5 w-5 text-foreground" />
                   </div>
                   <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
                     Upload Junction Images
@@ -219,12 +169,11 @@ const TrafficDashboard = () => {
 
           {/* Control Panel */}
           <div className="space-y-6">
-            {/* Control Buttons */}
             <Card className="bg-gradient-card shadow-elevated border-border/50 backdrop-blur-sm animate-slide-up">
               <CardHeader className="border-b border-border/50">
                 <CardTitle className="flex items-center space-x-2 text-card-foreground">
                   <div className="p-2 bg-gradient-primary rounded-lg">
-                    <Clock className="h-5 w-5 text-white" />
+                    <Clock className="h-5 w-5 text-foreground" />
                   </div>
                   <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
                     Control Panel
@@ -239,7 +188,7 @@ const TrafficDashboard = () => {
                 >
                   {isProcessing ? (
                     <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-muted/30 border-t-foreground rounded-full animate-spin"></div>
                       <span>Processing...</span>
                     </div>
                   ) : (
@@ -256,7 +205,6 @@ const TrafficDashboard = () => {
               </CardContent>
             </Card>
 
-            {/* Signal Duration Display */}
             {signalDurations && (
               <div className="animate-bounce-in">
                 <SignalDurationDisplay durations={signalDurations} />

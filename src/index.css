@@ -2,73 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+   All colors MUST be HSL. */
 
 @layer base {
   :root {
-    --background: 220 26% 14%;
-    --foreground: 210 40% 98%;
+    /* Light Mode — bright background, dark text */
+    --background: 0 0% 100%; /* White */
+    --foreground: 222.2 47.4% 11.2%; /* Near-black text */
 
-    --card: 224 71% 4%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 215 20.2% 40%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217.2 91.2% 59.8%;
+
     /* Traffic Light Colors */
-    --traffic-red: 0 84% 60%;
-    --traffic-yellow: 45 100% 60%;
-    --traffic-green: 120 100% 50%;
-    
+    --traffic-red: 0 84% 50%;
+    --traffic-yellow: 45 100% 50%;
+    --traffic-green: 120 100% 40%;
+
     /* Dashboard Colors */
-    --dashboard-bg: 220 26% 14%;
-    --dashboard-card: 224 71% 4%;
-    --dashboard-border: 217.2 32.6% 17.5%;
-    --dashboard-header: 210 100% 50%;
-    
+    --dashboard-bg: 0 0% 98%; /* Light background */
+    --dashboard-card: 0 0% 100%;
+    --dashboard-border: 220 13% 91%;
+    --dashboard-header: 217.2 91.2% 59.8%;
+
     /* Direction Colors */
     --direction-north: 220 100% 60%;
     --direction-south: 160 100% 50%;
     --direction-east: 45 100% 60%;
     --direction-west: 280 100% 60%;
-    
+
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 50%), hsl(210 100% 40%));
-    --gradient-card: linear-gradient(135deg, hsl(224 71% 4%), hsl(217.2 32.6% 17.5%));
-    --gradient-header: linear-gradient(135deg, hsl(210 100% 50%), hsl(210 80% 40%));
-    --gradient-north: linear-gradient(135deg, hsl(220 100% 60%), hsl(220 80% 50%));
-    --gradient-south: linear-gradient(135deg, hsl(160 100% 50%), hsl(160 80% 40%));
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(217.2 91.2% 59.8%),
+      hsl(210 100% 50%)
+    );
+    --gradient-card: linear-gradient(
+      135deg,
+      hsl(0 0% 100%),
+      hsl(220 14.3% 95.9%)
+    );
+    --gradient-header: linear-gradient(
+      135deg,
+      hsl(217.2 91.2% 59.8%),
+      hsl(210 100% 50%)
+    );
+    --gradient-north: linear-gradient(
+      135deg,
+      hsl(220 100% 60%),
+      hsl(220 80% 50%)
+    );
+    --gradient-south: linear-gradient(
+      135deg,
+      hsl(160 100% 50%),
+      hsl(160 80% 40%)
+    );
     --gradient-east: linear-gradient(135deg, hsl(45 100% 60%), hsl(45 80% 50%));
-    --gradient-west: linear-gradient(135deg, hsl(280 100% 60%), hsl(280 80% 50%));
-    --gradient-glow: radial-gradient(circle, hsl(210 100% 50% / 0.1), transparent);
-    
+    --gradient-west: linear-gradient(
+      135deg,
+      hsl(280 100% 60%),
+      hsl(280 80% 50%)
+    );
+    --gradient-glow: radial-gradient(
+      circle,
+      hsl(217.2 91.2% 59.8% / 0.1),
+      transparent
+    );
+
     /* Shadows */
-    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
-    --shadow-elevated: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -2px hsl(0 0% 0% / 0.05);
-    --shadow-glow: 0 0 20px hsl(210 100% 50% / 0.3);
+    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.05),
+      0 2px 4px -1px hsl(0 0% 0% / 0.03);
+    --shadow-elevated: 0 10px 15px -3px hsl(0 0% 0% / 0.1),
+      0 4px 6px -2px hsl(0 0% 0% / 0.05);
+    --shadow-glow: 0 0 20px hsl(217.2 91.2% 59.8% / 0.3);
     --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.06);
-    
+
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -76,19 +106,12 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
+    --sidebar-foreground: 222.2 47.4% 11.2%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14.3% 95.9%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -120,9 +143,52 @@ All colors MUST be HSL.
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    --dashboard-bg: 222.2 84% 4.9%;
+    --dashboard-card: 222.2 84% 7%;
+    --dashboard-border: 217.2 32.6% 17.5%;
+    --dashboard-header: 217.2 91.2% 59.8%;
+
+    --traffic-red: 0 84% 60%;
+    --traffic-yellow: 45 100% 50%;
+    --traffic-green: 120 100% 40%;
+
+    /* Update gradients for dark mode */
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(217.2 91.2% 59.8%),
+      hsl(210 100% 60%)
+    );
+    --gradient-card: linear-gradient(
+      135deg,
+      hsl(222.2 84% 7%),
+      hsl(217.2 32.6% 17.5%)
+    );
+    --gradient-header: linear-gradient(
+      135deg,
+      hsl(217.2 91.2% 59.8%),
+      hsl(210 100% 60%)
+    );
+    --gradient-north: linear-gradient(
+      135deg,
+      hsl(220 100% 70%),
+      hsl(220 80% 60%)
+    );
+    --gradient-south: linear-gradient(
+      135deg,
+      hsl(160 100% 60%),
+      hsl(160 80% 50%)
+    );
+    --gradient-east: linear-gradient(135deg, hsl(45 100% 70%), hsl(45 80% 60%));
+    --gradient-west: linear-gradient(
+      135deg,
+      hsl(280 100% 70%),
+      hsl(280 80% 60%)
+    );
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
@@ -133,10 +199,44 @@ All colors MUST be HSL.
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html {
+    transition: background-color 0.3s ease;
+  }
+
+  /* Ensure smooth transitions for theme changes */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+}
+
+@layer components {
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+  .bg-gradient-header {
+    background: var(--gradient-header);
+  }
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  .bg-gradient-text {
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
 }
